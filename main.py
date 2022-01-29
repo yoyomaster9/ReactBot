@@ -1,14 +1,18 @@
 import discord
 from discord.ext import commands
 import config
+import cogs
 
 BOT_PREFIX = ('/')
 
-client = commands.Bot(command_prefix=BOT_PREFIX)
-# client = commands.Bot()
+intents = discord.Intents.default()
+intents.members = True
 
+bot = commands.Bot(command_prefix=BOT_PREFIX, intents = intents)
+for x in commands.Cog.__subclasses__():
+    bot.add_cog(x(bot))
 
-@client.event
+@bot.event
 async def on_message(message):
     # We do not want the bot to reply to itself
     if message.author == client.user:
@@ -19,27 +23,15 @@ async def on_message(message):
         return
 
     else:
-        await client.process_commands(message)
+        await bot.process_commands(message)
 
 
-
-@client.command()
-async def ping(ctx):
-    await ctx.send('Pong!')
-
-@client.command(brief = 'Logs bot out of all servers [ADMIN ONLY]',
-                description = 'Logs bot out of all servers [ADMIN ONLY]')
-async def logout(ctx):
-    await ctx.send('Goodbye!')
-    await client.close()
-
-
-@client.event
+@bot.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game(name='Add !react to end'))
-    print('Logged in as ' + client.user.name)
+    await bot.change_presence(activity=discord.Game(name='Add !react to end'))
+    print('Logged in as ' + bot.user.name)
     print('---------------------')
-    print(f'Logged into servers: {[x.name for x in client.guilds]}')
+    print(f'Logged into servers: {[x.name for x in bot.guilds]}')
 
 
-client.run(config.discordtoken)
+bot.run(config.discordtoken)
