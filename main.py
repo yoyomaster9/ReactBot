@@ -15,7 +15,7 @@ for x in commands.Cog.__subclasses__():
 @bot.event
 async def on_message(message):
     # We do not want the bot to reply to itself
-    if message.author == client.user:
+    if message.author == bot.user:
         return
 
     # Only used for admins

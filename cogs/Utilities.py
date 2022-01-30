@@ -12,6 +12,6 @@ class Utilties(commands.Cog):
 
     @commands.command(brief = 'Logs out of all servers.',
                     description  = 'Logs out of all servers.')
-    async def close(self, ctx):
+    async def logout(self, ctx):
         await ctx.send('Logging out!!')
         await self.bot.close()
