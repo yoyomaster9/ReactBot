@@ -31,8 +31,7 @@ class React(commands.Cog):
             botmsg = await message.channel.send('Reactions!')
             self.watchedMessages[message.id] = botmsg.id
             self.save()
-            # add message to watched messages
-            # link user message with bot messages
+
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -60,58 +59,3 @@ class React(commands.Cog):
             s += f'\n {r}: {temp}' # maybe try *users if not unpacked?
 
         await bot_msg.edit(content = s)
-
-
-
-'''
-    @commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload):
-        if payload.member == self.bot.user:
-            return
-        elif payload.message_id in self.watchedMessages:
-            r = discord.utils.get(payload.member.guild.roles, id = self.watchedMessages[payload.message_id][str(payload.emoji)])
-            await payload.member.add_roles(r)
-
-    @commands.Cog.listener()
-    async def on_raw_reaction_remove(self, payload):
-        if payload.message_id in self.watchedMessages:
-            g = self.bot.get_guild(payload.guild_id)
-            m = g.get_member(payload.user_id)
-            r = discord.utils.get(g.roles, id = self.watchedMessages[payload.message_id][str(payload.emoji)])
-            await m.remove_roles(r)
-'''
-
-    # @commands.command()
-    # async def createAssignMsg(self, ctx, *args):
-    #     msg = await ctx.send('React to get the following roles!')
-    #     self.watchedMessages[msg.id] = {}
-    #     for i in range(1, len(args), 2):
-    #         await msg.add_reaction(args[i])
-    #         self.watchedMessages[msg.id][args[i]] = int(args[i-1][3:-1])
-    #
-    #     await self.editmessage(msg)
-    #     self.save()
-    #
-    # async def editmessage(self, msg):
-    #     s = 'React to get the following roles!'
-    #     for e in self.watchedMessages[msg.id]:
-    #         r = discord.utils.get(msg.guild.roles, id = self.watchedMessages[msg.id][e])
-    #         s += '\n{} : {}'.format(e, r.mention)
-    #     await msg.edit(content = s)
-    #
-    #
-    # @commands.command()
-    # async def addRole(self, ctx, *args):
-    #     msg = await ctx.channel.history().get(author = self.bot.user)
-    #     for i in range(1, len(args), 2):
-    #         await msg.add_reaction(args[i])
-    #         self.watchedMessages[msg.id][args[i]] = int(args[i-1][3:-1])
-    #     await self.editmessage(msg)
-    #
-    # @commands.command()
-    # async def removeRole(self, ctx, *args):
-    #     msg = await ctx.channel.history().get(author = self.bot.user)
-    #     for e in args:
-    #         del self.watchedMessages[msg.id][e]
-    #         await msg.clear_reaction(e)
-    #     await self.editmessage(msg)
