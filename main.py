@@ -28,10 +28,9 @@ async def on_message(message):
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name='Add !reactbot! track messages'))
+    await bot.change_presence(activity=discord.Game(name='Add !reactbot! watch messages'))
     print('Logged in as ' + bot.user.name)
     print('---------------------')
     print(f'Logged into servers: {[x.name for x in bot.guilds]}')
-
 
 bot.run(config.discordtoken)
