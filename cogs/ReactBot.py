@@ -33,7 +33,24 @@ class React(commands.Cog):
             self.watchedMessages[message.id] = botmsg.id
             self.save()
 
+    @commands.command()
+    async def watch(self, ctx, msg_id):
+        msg_id = int(msg_id)
+        botmsg = await ctx.channel.send('Reactions!')
+        self.watchedMessages[msg_id] = botmsg.id
+        self.save()
 
+    @commands.command()
+    async def unwatch(self, ctx, msg_id):
+        msg_id = int(msg_id)
+        try:
+            bot_msg_id = self.watchedMessages[msg_id]
+            bot_msg = await ctx.channel.fetch_message(bot_msg_id)
+            await bot_msg.delete()
+        except discord.errors.NotFound:
+            await ctx.send('Message not found! Maybe in different channel?')
+        except KeyError:
+            await ctx.send('Message isn\'t being watched!')
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
