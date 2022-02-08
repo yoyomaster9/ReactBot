@@ -2,7 +2,6 @@ from discord.ext import commands
 import discord
 import json
 import os
-import config
 
 # Requires message intent for role remove
 
@@ -30,13 +29,10 @@ class React(commands.Cog):
         if message.author == self.bot.user:
             return
         if '!reactbot!' in message.content:
-            if message.author.id == config.ADMINID:
-                botmsg = await message.channel.send('Reactions!')
-                self.watchedMessages[message.id] = botmsg.id
-                self.save()
-            else:
-                admin = message.guild.get_member(config.ADMINID)
-                await message.channel.send(f'Only {admin.mention} can use !reactbot!')
+            botmsg = await message.channel.send('Reactions!')
+            self.watchedMessages[message.id] = botmsg.id
+            self.save()
+
 
 
     @commands.Cog.listener()

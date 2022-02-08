@@ -18,10 +18,6 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Only used for admins
-    elif message.author.id != config.ADMINID:
-        return
-
     else:
         await bot.process_commands(message)
 
